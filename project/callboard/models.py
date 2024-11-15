@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from ckeditor.fields import RichTextField
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
@@ -31,7 +32,7 @@ class Category(models.Model):
 
 class Ad(models.Model):
     title = models.CharField(max_length=200)
-    content = models.TextField()
+    content = RichTextField(blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ads')
     created_at = models.DateTimeField(auto_now_add=True)
