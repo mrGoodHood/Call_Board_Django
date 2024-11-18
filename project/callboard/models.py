@@ -42,8 +42,11 @@ class Ad(models.Model):
         return f'{self.title} ({self.author.username})'
 
     def clean(self):
-        if self.category and self.category.name not in dict(Category.CATEGORY_CHOICES):
-            raise ValidationError("Выберите допустимую категорию.")
+        valid_categories = [choice[0] for choice in Category.CATEGORY_CHOICES]
+        if self.category and self.category.name not in valid_categories:
+            raise ValidationError("Выбранная категория недопустима.")
+        if not self.content:
+            raise ValidationError("Контент объявления не может быть пустым.")
 
 
 class Response(models.Model):
