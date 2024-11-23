@@ -1,7 +1,11 @@
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.views.generic.edit import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.conf import settings
+from django.http import HttpResponse
 from .models import Ad, Response
 
 
@@ -86,3 +90,11 @@ class ResponseAccept(LoginRequiredMixin, FormView):
         response.is_accepted = True
         response.save()
         return super().form_valid(self.get_form())
+
+
+@login_required
+def user_profile(request):
+    is_author = request.user.groups.filter(name='authors').exists()
+    return render(request, 'account/user_profile.html', {
+        'is_author': is_author,
+    })

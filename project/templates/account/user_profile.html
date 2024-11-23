@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Профиль пользователя
+{% endblock title %}
+
+{% block content %}
+    <h1>Профиль пользователя</h1>
+    <p>Добро пожаловать, {{ user.username }}!</p>
+    <p>Email: {{ user.email }}</p>
+
+    {% if not is_author %}
+        <form action="{% url 'become_author' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; cursor: pointer;">
+                Стать автором
+            </button>
+        </form>
+    {% else %}
+        <p>Вы уже автор!</p>
+    {% endif %}
+{% endblock content %}

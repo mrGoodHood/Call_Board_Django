@@ -1,0 +1,35 @@
+{% block title %}Список объявлений{% endblock %}
+
+{% block content %}
+    <h2>Список объявлений</h2>
+    
+    {% if ads %}
+        <ul>
+            {% for ad in ads %}
+                <li>
+                    <a href="{% url 'ad_detail' ad.pk %}">{{ ad.title }} (автор: {{ ad.author.username }})</a>
+                    (автор: {{ ad.author.username }})
+                </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Пагинация -->
+        {% if is_paginated %}
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}">← Предыдущая</a>
+                {% endif %}
+                
+                <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+                
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Следующая →</a>
+                {% endif %}
+            </div>
+        {% else %}
+            <p>Всего страниц: 1</p>
+        {% endif %}
+    {% else %}
+        <p>Объявлений пока нет.</p>
+    {% endif %}
+{% endblock %}

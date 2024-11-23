@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Создание / Редактирование объявления{% endblock %}
+
+{% block content %}
+    <h2>Создать или редактировать объявление</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+    <a href="{% url 'ads' %}">← Назад к списку</a>
+{% endblock %}

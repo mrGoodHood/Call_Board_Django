@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Мои отклики{% endblock %}
+
+{% block content %}
+    <h2>Отклики на ваши объявления</h2>
+    {% if responses %}
+        <ul>
+            {% for response in responses %}
+                <li>
+                    <a href="{{ response.get_absolute_url }}">Отклик на "{{ response.ad.title }}"</a>
+                    (от {{ response.author.username }})
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Пока нет откликов.</p>
+    {% endif %}
+{% endblock %}

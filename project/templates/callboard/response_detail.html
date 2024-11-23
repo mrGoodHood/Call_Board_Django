@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Отклик на объявление{% endblock %}
+
+{% block content %}
+    <h2>Отклик на "{{ response.ad.title }}"</h2>
+    <p><strong>Автор:</strong> {{ response.author.username }}</p>
+    <p><strong>Текст отклика:</strong></p>
+    <p>{{ response.content }}</p>
+    <a href="{% url 'response_list' %}">← Назад к списку откликов</a>
+{% endblock %}
