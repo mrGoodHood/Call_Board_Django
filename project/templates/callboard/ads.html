@@ -1,8 +1,10 @@
+{% extends 'base.html' %}
+
 {% block title %}Список объявлений{% endblock %}
 
 {% block content %}
     <h2>Список объявлений</h2>
-    
+
     {% if ads %}
         <ul>
             {% for ad in ads %}
@@ -19,14 +21,15 @@
                 {% if page_obj.has_previous %}
                     <a href="?page={{ page_obj.previous_page_number }}">← Предыдущая</a>
                 {% endif %}
-                
+
                 <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
-                
+
                 {% if page_obj.has_next %}
                     <a href="?page={{ page_obj.next_page_number }}">Следующая →</a>
                 {% endif %}
             </div>
         {% else %}
+    <a href="{% url 'ad_create' %}" class="btn btn-primary">Создать объявление</a>
             <p>Всего страниц: 1</p>
         {% endif %}
     {% else %}

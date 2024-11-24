@@ -32,7 +32,7 @@ class Category(models.Model):
 
 class Ad(models.Model):
     title = models.CharField(max_length=200)
-    content = RichTextField(blank=True, null=True)
+    content = RichTextField(blank=False, null=False)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ads')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -47,6 +47,12 @@ class Ad(models.Model):
             raise ValidationError("Выбранная категория недопустима.")
         if not self.content:
             raise ValidationError("Контент объявления не может быть пустым.")
+
+    class Meta:
+        permissions = [
+            ('can_publish', 'Can publish ads'),  # Пользователь может публиковать объявления
+            ('can_mark_urgent', 'Can mark ads as urgent'),  # Пользователь может отмечать объявления как срочные
+        ]
 
 
 class Response(models.Model):

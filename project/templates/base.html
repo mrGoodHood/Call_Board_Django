@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Доска объявлений{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <!-- FixMe -->
+            <a href="{% url 'ads' %}">Главная</a>
+            <a href="{% url 'ads' %}">О нас</a>
+            <a href="{% url 'ads' %}">Контакты</a>
+            <!-- FixMe -->
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>© 2024 Доска объявлений</p>
+    </footer>
+
+</body>
+</html>

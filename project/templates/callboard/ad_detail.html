@@ -58,6 +58,7 @@
             {{ ad.content|safe }}
         </div>
         <p class="meta">Дата публикации: {{ ad.created_at|date:"d.m.Y H:i" }}</p>
+        <a href="{% url 'response_create' ad.id %}">Отправить отклик</a>
         <a href="{% url 'ads' %}" class="back-link">← Назад к списку</a>
     </div>
     <footer>© Доска объявлений</footer>
