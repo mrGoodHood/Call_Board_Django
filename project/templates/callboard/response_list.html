@@ -1,19 +1,31 @@
-{% extends "base.html" %}
-
-{% block title %}Мои отклики{% endblock %}
+{% extends 'base.html' %}
 
 {% block content %}
-    <h2>Отклики на ваши объявления</h2>
-    {% if responses %}
-        <ul>
-            {% for response in responses %}
-                <li>
-                    <a href="{{ response.get_absolute_url }}">Отклик на "{{ response.ad.title }}"</a>
-                    (от {{ response.author.username }})
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Пока нет откликов.</p>
-    {% endif %}
+<h1>Мои отклики</h1>
+
+<form method="GET">
+    <label for="selected_ad">Выберите объявление:</label>
+    <select name="selected_ad" id="selected_ad">
+        <option value="">Все объявления</option>
+        {% for ad in ads %}
+        <option value="{{ ad.pk }}" {% if ad.pk == selected_ad %}selected{% endif %}>{{ ad.title }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Применить фильтр</button>
+</form>
+
+{% if responses %}
+<ul>
+    {% for response in responses %}
+    <li>
+        <strong>Объявление:</strong> {{ response.ad.title }}<br>
+        <strong>Автор отклика:</strong> {{ response.author.username }}<br>
+        <a href="{% url 'response_detail' response.pk %}">Подробнее</a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Нет откликов.</p>
+{% endif %}
+
 {% endblock %}

@@ -2,14 +2,16 @@ import os
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.views.generic.edit import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.mail import send_mail
-from django.conf import settings
-from django.http import HttpResponse
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponseRedirect
 
 from .forms import AdForm
 from .models import Ad, Response
@@ -76,7 +78,16 @@ class ResponseList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = 'callboard.view_response'  # Право для просмотра откликов
 
     def get_queryset(self):
-        return Response.objects.filter(ad__author=self.request.user)
+        queryset = Response.objects.filter(ad__author=self.request.user)
+        selected_ad = self.request.GET.get('selected_ad')
+        if selected_ad:
+            queryset = queryset.filter(ad_id=selected_ad)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['ads'] = Ad.objects.filter(author=self.request.user)
+        return context
 
 
 class ResponseDetail(LoginRequiredMixin, DetailView):
@@ -122,17 +133,38 @@ class ResponseDelete(LoginRequiredMixin, DeleteView):
     template_name = 'callboard/response_confirm_delete.html'
     success_url = reverse_lazy('response_list')
 
+    # Проверка, является ли текущий пользователь автором
+    def dispatch(self, request, *args, **kwargs):
+        response = self.get_object()
+        if response.ad.author != request.user:
+            messages.error(request, 'Вы не имеете права удалять этот отклик.')
+            return HttpResponseRedirect(reverse_lazy('response_list'))
+        return super().dispatch(request, *args, **kwargs)
 
-class ResponseAccept(LoginRequiredMixin, FormView):
-    model = Response
-    template_name = 'callboard/response_accept.html'
-    success_url = reverse_lazy('response_list')
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, 'Отклик успешно удален.')
+        return super().delete(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        response = Response.objects.get(pk=kwargs['pk'])
+
+class ResponseAccept(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        response = get_object_or_404(Response, pk=pk)
+        if response.ad.author != request.user:
+            messages.error(request, 'Вы не имеете права принять этот отклик.')
+            return HttpResponseRedirect(reverse_lazy('response_list'))
+
         response.is_accepted = True
         response.save()
-        return super().form_valid(self.get_form())
+
+        # Отправка уведомления пользователю
+        subject = 'Ваш отклик на объявление принят!'
+        message = f'Здравствуйте! Ваш отклик на объявление "{response.ad.title}" был принят.'
+        from_email = 'noreply@yourdomain.com'
+        recipient_list = [response.author.email]
+        send_mail(subject, message, from_email, recipient_list)
+
+        messages.success(request, f'Отклик на объявление {response.ad} принят!')
+        return HttpResponseRedirect(reverse_lazy('response_detail', args=[pk]))
 
 
 @login_required
