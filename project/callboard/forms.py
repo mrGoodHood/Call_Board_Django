@@ -1,7 +1,7 @@
 from allauth.account.forms import SignupForm
 from django.contrib.auth.models import Group
 from django import forms
-from .models import Ad
+from .models import Ad, NewsletterSubscription
 from ckeditor.widgets import CKEditorWidget
 from .models import Response
 
@@ -32,3 +32,10 @@ class ResponseForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ResponseForm, self).__init__(*args, **kwargs)
         self.fields['content'].label = "Текст отклика:"
+
+
+# Форма для подписки
+class SubscriptionForm(forms.ModelForm):
+    class Meta:
+        model = NewsletterSubscription
+        fields = ['subscribed']

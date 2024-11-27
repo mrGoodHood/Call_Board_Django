@@ -64,3 +64,13 @@ class Response(models.Model):
 
     def __str__(self):
         return f'Отклик от {self.author} к "{self.ad.title}"'
+
+
+class NewsletterSubscription(models.Model):
+    """Модель для хранения подписок"""
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    subscribed = models.BooleanField(default=True)
+    date_subscribed = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - Subscribed: {self.subscribed}"

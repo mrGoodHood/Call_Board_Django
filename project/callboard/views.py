@@ -2,7 +2,7 @@ import os
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -13,8 +13,8 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
 
-from .forms import AdForm
-from .models import Ad, Response
+from .forms import AdForm, SubscriptionForm
+from .models import Ad, Response, NewsletterSubscription
 
 
 # Объявления (Ad)
@@ -173,3 +173,26 @@ def user_profile(request):
     return render(request, 'account/user_profile.html', {
         'is_author': is_author,
     })
+
+
+# Представление для подписки
+@login_required
+def subscribe_newsletter(request):
+    if request.method == 'POST':
+        form = SubscriptionForm(request.POST)
+        if form.is_valid():
+            subscription, _ = NewsletterSubscription.objects.get_or_create(user=request.user)
+            subscription.subscribed = form.cleaned_data['subscribed']
+            subscription.save()
+            return redirect('newsletter_success')
+    else:
+        try:
+            subscription = NewsletterSubscription.objects.get(user=request.user)
+            form = SubscriptionForm(instance=subscription)
+        except NewsletterSubscription.DoesNotExist:
+            form = SubscriptionForm(initial={'subscribed': False})
+
+    return render(request, 'subscribe_newsletter.html', {'form': form})
+
+def newsletter_success(request):
+    return render(request, 'newsletter_success.html')

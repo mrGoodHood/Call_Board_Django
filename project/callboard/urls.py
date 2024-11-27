@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (
     AdList, AdDetail, AdCreate, AdUpdate, AdDelete,
     ResponseList, ResponseDetail, ResponseCreate, ResponseDelete, ResponseAccept,
-    user_profile,
+    user_profile, subscribe_newsletter, newsletter_success,
 )
 
 urlpatterns = [
@@ -19,6 +19,10 @@ urlpatterns = [
     path('responses/create/<int:ad_id>', ResponseCreate.as_view(), name='response_create'),
     path('responses/<int:pk>/delete/', ResponseDelete.as_view(), name='response_delete'),
     path('responses/<int:pk>/accept/', ResponseAccept.as_view(), name='response_accept'),
+
+    # Маршруты для подписки
+    path('subscribe-newsletter/', subscribe_newsletter, name='subscribe_newsletter'),
+    path('newsletter-success/', newsletter_success, name='newsletter_success'),
 
     # Аккаунт
     path('profile/', user_profile, name='user_profile'),
