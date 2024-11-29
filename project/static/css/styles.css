@@ -1,8 +1,8 @@
 @charset "UTF-8";
 /*!
-* Start Bootstrap - Bare v5.0.9 (https://startbootstrap.com/template/bare)
+* Start Bootstrap - Full Width Pics v5.0.6 (https://startbootstrap.com/template/full-width-pics)
 * Copyright 2013-2023 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-bare/blob/master/LICENSE)
+* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-full-width-pics/blob/master/LICENSE)
 */
 /*!
  * Bootstrap  v5.2.3 (https://getbootstrap.com/)
@@ -100,6 +100,10 @@ body {
   color: var(--bs-body-color);
   text-align: var(--bs-body-text-align);
   background-color: var(--bs-body-bg);
+  background-image: url("/static/images/background.jpg"); /* Путь к вашему изображению */
+  background-size: cover; /* Масштабирует изображение, чтобы оно покрывало весь экран */
+  background-repeat: no-repeat; /* Избегает повторения изображения */
+  background-attachment: fixed; /* Фон остаётся неподвижным при прокрутке */
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
@@ -623,6 +627,12 @@ progress {
 .figure-caption {
   font-size: 0.875em;
   color: #6c757d;
+}
+
+.container {
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный фон */
+    color: #fff; /* Цвет текста */
+    padding: 20px; /* Внутренний отступ контейнера */
 }
 
 .container,
@@ -2592,6 +2602,12 @@ textarea.form-control-lg {
   font-size: 0.875em;
   color: #198754;
 }
+
+/* Футер */
+footer.bg-light {
+    background-color: rgba(255, 255, 255, 0.6); /* Белый цвет с 60% непрозрачностью */
+}
+
 
 .valid-tooltip {
   position: absolute;
@@ -10823,4 +10839,132 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+}
+.bg-image-full {
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center;
+  background-size: cover;
+}
+
+
+/* Общие стили */
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.site-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.nav-link {
+    transition: color 0.15s ease-in-out;
+}
+
+.nav-link:hover {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.main-content {
+    flex-grow: 1;
+}
+
+.site-footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    margin-top: auto;
+}
+
+
+/* Фон для доски объявлений */
+.board-container {
+    background: url("{% static 'images/board-texture.jpg' %}") center center/cover;
+    padding: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Карточки объявлений */
+.ad-card {
+    background: #fff; /* Резервный цвет на случай, если текстура не загрузится */
+    background-image: url('/static/images/texture.jpg'); /* Путь к текстуре */
+    background-size: cover; /* Подгоняет текстуру под размеры карточки */
+    background-repeat: no-repeat; /* Не повторяет текстуру */
+    background-blend-mode: overlay; /* Смешивает фон и текстуру */
+    width: 200px;
+    padding: 15px;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2), -2px -2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    position: relative;
+    font-family: 'Arial', sans-serif;
+    margin: 10px;
+}
+
+/* Эффект наклеенного листа */
+.ad-card::before {
+    content: '';
+    width: 40px;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: -10px;
+    left: calc(50% - 20px);
+    border-radius: 2px;
+    z-index: 1;
+    box-shadow: inset 0 -3px rgba(0, 0, 0, 0.3);
+}
+
+/* Текст объявления */
+.ad-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.ad-meta {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.ad-content {
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+/* Кнопка "Подробнее" */
+.ad-button {
+    display: inline-block;
+    padding: 10px 15px;
+    background: #000;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 4px;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.ad-button:hover {
+    background: #444;
+}
+
+/* Анимация карточек */
+.ad-card:hover {
+    box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(0, 0, 0, 0.2);
+    transform: rotate(0deg);
 }
