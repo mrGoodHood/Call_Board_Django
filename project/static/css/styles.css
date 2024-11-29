@@ -10860,12 +10860,12 @@ body {
 }
 
 .site-header {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    background: none; /* Убирает фон */
+    box-shadow: none; /* Убирает тень */
+    padding: 15px 0;
 }
 
-.navbar-brand {
-    font-weight: bold;
-}
+
 
 .nav-link {
     transition: color 0.15s ease-in-out;
@@ -10899,72 +10899,122 @@ body {
 
 /* Карточки объявлений */
 .ad-card {
-    background: #fff; /* Резервный цвет на случай, если текстура не загрузится */
-    background-image: url('/static/images/texture.jpg'); /* Путь к текстуре */
-    background-size: cover; /* Подгоняет текстуру под размеры карточки */
-    background-repeat: no-repeat; /* Не повторяет текстуру */
-    background-blend-mode: overlay; /* Смешивает фон и текстуру */
+    background: linear-gradient(145deg, #f8f9fa, #e9ecef); /* Легкий градиент */
     width: 200px;
     padding: 15px;
-    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2), -2px -2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    position: relative;
-    font-family: 'Arial', sans-serif;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2), -2px -2px 4px rgba(0, 0, 0, 0.1);
     margin: 10px;
+    font-family: 'Georgia', serif; /* Более стильный шрифт */
+    position: relative;
 }
 
-/* Эффект наклеенного листа */
-.ad-card::before {
-    content: '';
-    width: 40px;
-    height: 20px;
-    background: rgba(0, 0, 0, 0.2);
-    position: absolute;
-    top: -10px;
-    left: calc(50% - 20px);
-    border-radius: 2px;
-    z-index: 1;
-    box-shadow: inset 0 -3px rgba(0, 0, 0, 0.3);
-}
-
-/* Текст объявления */
-.ad-title {
-    font-size: 18px;
+/* Заголовок объявления */
+.ad-title a {
+    font-family: 'Merriweather', serif;
+    color: #343a40;
     font-weight: bold;
-    margin-bottom: 10px;
+    font-size: 18px;
+    text-decoration: none;
 }
 
+.ad-title a:hover {
+    color: #007bff; /* При наведении */
+}
+
+/* Метаинформация (автор, дата) */
 .ad-meta {
     font-size: 12px;
-    color: #777;
-    margin-bottom: 10px;
+    color: #6c757d;
+    margin-top: 5px;
 }
 
+/* Основной текст объявления */
 .ad-content {
     font-size: 14px;
+    color: #495057;
+    margin-top: 10px;
+    font-style: italic;
     line-height: 1.5;
-    margin-bottom: 15px;
 }
 
 /* Кнопка "Подробнее" */
 .ad-button {
     display: inline-block;
+    margin-top: 15px;
     padding: 10px 15px;
-    background: #000;
+    background-color: #343a40;
     color: #fff;
     text-decoration: none;
+    border-radius: 5px;
     font-size: 14px;
-    border-radius: 4px;
     text-align: center;
-    transition: background 0.3s;
+    transition: background-color 0.3s ease;
 }
 
 .ad-button:hover {
-    background: #444;
+    background-color: #007bff; /* При наведении */
 }
 
-/* Анимация карточек */
-.ad-card:hover {
-    box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.4), -3px -3px 6px rgba(0, 0, 0, 0.2);
-    transform: rotate(0deg);
+
+/* Общий стиль шапки */
+.site-header {
+    background: linear-gradient(135deg, #343a40, #212529); /* Градиентный фон */
+    padding: 15px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Заголовок */
+.navbar-brand {
+    font-family: 'Merriweather', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #f8f9fa;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+    transition: color 0.3s ease;
+}
+
+.navbar-brand:hover {
+    color: #ffcb6b; /* Светло-жёлтый акцент */
+    text-decoration: none;
+}
+
+/* Ссылки в навигации */
+.nav-link {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #dee2e6;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #ffc107; /* Золотистый акцент */
+    text-decoration: underline;
+}
+
+/* Анимация для кнопки-гамбургера */
+.navbar-toggler {
+    border: 1px solid #dee2e6;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.navbar-toggler:hover {
+    background-color: #495057;
+    border-color: #f8f9fa;
+}
+
+/* Адаптивность */
+@media (max-width: 991.98px) {
+    .site-header {
+        padding: 10px 0;
+    }
+
+    .navbar-brand {
+        font-size: 20px;
+    }
+
+    .nav-link {
+        font-size: 14px;
+    }
 }
